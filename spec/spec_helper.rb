@@ -1,3 +1,4 @@
+ENV['ENVIRONMENT'] = 'test'
 # at the top of spec/spec_helper.rb
 
 # Set the environment to "test"
