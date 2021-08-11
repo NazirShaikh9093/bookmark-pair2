@@ -1,26 +1,26 @@
 require_relative '../lib/bookmarks.rb'
+require_relative './database_helpers.rb'
 
 describe Bookmarks do 
   it "# all method returns all bookmarks" do
     connection = PG.connect(dbname: 'bookmark_manager_test')
 
     # Add the test data
-    connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.makersacademy.com');")
-    connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.destroyallsoftware.com');")
-    connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.google.com');")
+    bookmark = Bookmarks.create(url: 'http://www.example.org', title: 'Test Bookmark')
+    persisted_data = persisted_data(id: bookmark.id)
 
-    bookmarks = Bookmarks.all
-
-    expect(bookmarks).to include('http://www.makersacademy.com')
-    expect(bookmarks).to include('http://www.destroyallsoftware.com')
-    expect(bookmarks).to include('http://www.google.com')
+    expect(bookmark).to be_a Bookmarks
+    expect(bookmark.id).to eq persisted_data['id']
+    expect(bookmark.title).to eq 'Test Bookmark'
+    expect(bookmark.url).to eq 'http://www.example.org'
   end
 
   describe '.create' do
     it 'creates a new bookmark' do
-      Bookmarks.create(url: 'http://www.example.org')
+      bookmark = Bookmarks.create(url: 'http://www.example.org', title: 'Test Bookmark')
 
-      expect(Bookmarks.all).to include 'http://www.example.org'
+      expect(bookmark.url).to eq 'http://www.example.org'
+      expect(bookmark.title).to eq 'Test Bookmark'
     end
   end
 
