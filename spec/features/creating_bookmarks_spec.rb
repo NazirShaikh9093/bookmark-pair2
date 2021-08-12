@@ -1,4 +1,4 @@
-ffeature 'Adding a new bookmark' do
+feature 'Adding a new bookmark' do
   scenario 'A user can add a bookmark to Bookmark Manager' do
     visit('/bookmarks_new')
     fill_in('url', with: 'http://www.example.org')
